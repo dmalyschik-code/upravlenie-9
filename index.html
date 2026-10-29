@@ -1,508 +1,852 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Управление «9» — Учебный портал</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Управление «9» — Учебный портал</title>
 
-  <style>
-    :root {
-      --bg: #080d18;
-      --panel: #111a2b;
-      --panel-light: #18243a;
-      --blue: #4285ff;
-      --blue-light: #78a9ff;
-      --text: #f1f5ff;
-      --muted: #9aa9c2;
-      --border: #283650;
-      --green: #42d392;
-      --red: #ff6978;
-    }
+<style>
+:root {
+  --bg: #080d18;
+  --panel: #111a2b;
+  --panel-light: #18243a;
+  --blue: #4285ff;
+  --blue-light: #78a9ff;
+  --text: #f1f5ff;
+  --muted: #9aa9c2;
+  --border: #283650;
+  --green: #42d392;
+  --red: #ff6978;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(ellipse at top, #142544 0%, transparent 55%),
-        var(--bg);
-      color: var(--text);
-    }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(ellipse at top, #142544 0%, transparent 55%), var(--bg);
+  color: var(--text);
+}
 
-    button,
-    select {
-      font: inherit;
-    }
+button, select {
+  font: inherit;
+}
 
-    .container {
-      width: min(100% - 32px, 1000px);
-      margin: 0 auto;
-    }
+.container {
+  width: min(100% - 32px, 900px);
+  margin: 0 auto;
+}
 
-    header {
-      padding: 30px 0;
-      border-bottom: 1px solid var(--border);
-      background: rgba(8, 13, 24, 0.75);
-    }
+header {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8, 13, 24, .85);
+}
 
-    .header-content {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
 
-    .emblem {
-      width: 64px;
-      height: 64px;
-      display: grid;
-      place-items: center;
-      flex-shrink: 0;
-      border-radius: 18px;
-      border: 1px solid #3e65a7;
-      background: linear-gradient(145deg, #24477e, #111b30);
-      font-size: 27px;
-      font-weight: 800;
-      color: white;
-    }
+.emblem {
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 1px solid #3e65a7;
+  background: linear-gradient(145deg, #24477e, #111b30);
+  font-size: 27px;
+  font-weight: 800;
+}
 
-    h1 {
-      margin: 0 0 8px;
-      font-size: clamp(24px, 5vw, 36px);
-    }
+h1 {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 5vw, 36px);
+}
 
-    .subtitle {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.5;
-    }
+h2 {
+  margin-top: 0;
+}
 
-    main {
-      padding: 32px 0 50px;
-    }
+.subtitle, .description {
+  color: var(--muted);
+  line-height: 1.7;
+}
 
-    .notice {
-      padding: 15px 17px;
-      margin-bottom: 24px;
-      border: 1px solid #304a76;
-      border-radius: 12px;
-      background: rgba(47, 91, 160, 0.12);
-      color: #c8d9f7;
-      line-height: 1.6;
-      font-size: 14px;
-    }
+.subtitle {
+  margin: 0;
+}
 
-    .card {
-      padding: 25px;
-      margin-bottom: 22px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(17, 26, 43, 0.94);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
-    }
+main {
+  padding: 30px 0 48px;
+}
 
-    .card h2 {
-      margin: 0 0 14px;
-      font-size: 23px;
-    }
+.notice {
+  padding: 15px 17px;
+  margin-bottom: 22px;
+  border: 1px solid #304a76;
+  border-radius: 12px;
+  background: rgba(47, 91, 160, .12);
+  color: #c8d9f7;
+  line-height: 1.6;
+  font-size: 14px;
+}
 
-    .description {
-      color: var(--muted);
-      line-height: 1.7;
-    }
+.card {
+  padding: 25px;
+  margin-bottom: 22px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(17, 26, 43, .96);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, .12);
+}
 
-    .field-label {
-      display: block;
-      margin: 22px 0 9px;
-      font-weight: 700;
-    }
+.hidden {
+  display: none !important;
+}
 
-    select {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--bg);
-      color: var(--text);
-      outline: none;
-    }
+.field-label {
+  display: block;
+  margin: 22px 0 9px;
+  font-weight: 700;
+}
 
-    select:focus {
-      border-color: var(--blue);
-    }
-   border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 13px;
-      text-align: center;
-      line-height: 1.7;
-    }
+select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+}
 
-    max-width: 600px {
-      .header-content {
-        align-items: flex-start;
-      }
+.topics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
 
-      .emblem {
-        width: 50px;
-        height: 50px;
-        border-radius: 13px;
-        font-size: 22px;
-      }
+.topic {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel-light);
+}
 
-      .card {
-        padding: 19px;
-      }
+.topic span {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
 
-      .topics {
-        grid-template-columns: 1fr;
-      }
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
 
-      .button-row {
-        flex-direction: column;
-      }
+.button {
+  padding: 13px 19px;
+  border: 1px solid var(--blue);
+  border-radius: 10px;
+  background: var(--blue);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+}
 
-      .button-row .button {
-        width: 100%;
-      }
-    }
-  </style>
+.button:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.quiz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.progress {
+  height: 8px;
+  margin: 16px 0 25px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #25324a;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--blue-light));
+  transition: width .25s;
+}
+
+.question {
+  margin: 0 0 22px;
+  font-size: clamp(19px, 4vw, 24px);
+  line-height: 1.5;
+}
+
+.answers {
+  display: grid;
+  gap: 12px;
+}
+
+.answer {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+  color: var(--text);
+  background: var(--panel-light);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  line-height: 1.5;
+  transition: .2s;
+}
+
+.answer:hover {
+  border-color: var(--blue-light);
+  background: #1b2b47;
+}
+
+.answer.selected {
+  border-color: var(--blue);
+  background: rgba(66, 133, 255, .18);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+
+.answer-letter {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #405273;
+  border-radius: 8px;
+  font-weight: 700;
+  color: var(--blue-light);
+}
+
+.answer.selected .answer-letter {
+  color: white;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+.score {
+  margin: 15px 0;
+  font-size: clamp(40px, 9vw, 64px);
+  font-weight: 800;
+  color: var(--blue-light);
+}
+
+.result-status {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-weight: 700;
+}
+
+.passed {
+  color: var(--green);
+  background: rgba(66, 211, 146, .12);
+  border: 1px solid rgba(66, 211, 146, .35);
+}
+
+.failed {
+  color: var(--red);
+  background: rgba(255, 105, 120, .12);
+  border: 1px solid rgba(255, 105, 120, .35);
+}
+
+.review-item {
+  padding: 17px 0;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+.review-item:last-child {
+  border-bottom: 0;
+}
+
+.correct-text {
+  margin-top: 9px;
+  color: var(--green);
+}
+
+.wrong-text {
+  margin-top: 9px;
+  color: var(--red);
+}
+
+footer {
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .header-content {
+    align-items: flex-start;
+  }
+
+  .emblem {
+    width: 50px;
+    height: 50px;
+    font-size: 22px;
+  }
+
+  .card {
+    padding: 19px;
+  }
+
+  .topics {
+    grid-template-columns: 1fr;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  .button-row .button {
+    width: 100%;
+  }
+}
+</style>
 </head>
 
 <body>
-  <header>
-    <div class="container header-content">
-      <div class="emblem">9</div>
+<header>
+  <div class="container header-content">
+    <div class="emblem">9</div>
+    <div>
+      <h1>Управление «9»</h1>
+      <p class="subtitle">Учебный портал · Россия Онлайн — Кутузовский</p>
+    </div>
+  </div>
+</header>
 
-      <div>
-        <h1>Управление «9»</h1>
-        <p class="subtitle">
-          Учебный портал · Россия Онлайн — Кутузовский
-        </p>
+<main class="container">
+  <div class="notice">
+    <strong>Информация:</strong>
+    это неофициальный учебный проект для ролевого игрового сервера
+    «Россия Онлайн — Кутузовский». Сайт не является официальным ресурсом
+    государственных органов и не связан с реальными ведомствами.
+  </div>
+
+  <section class="card" id="intro">
+    <h2>Аттестация сотрудников</h2>
+    <p class="description">
+      Добро пожаловать на учебный портал Управления «9».
+      Выберите должность и приступите к проверке знаний.
+      Вопросы предназначены для внутриигровой подготовки,
+      соблюдения правил подразделения и оценки знания ролевого регламента.
+    </p>
+
+    <label class="field-label" for="rank">Выберите вашу должность</label>
+    <select id="rank">
+      <option value="senior">Старший инструктор</option>
+      <option value="deputy">Заместитель начальника управления</option>
+      <option value="chief">Начальник управления</option>
+      <option value="curator">Куратор управления</option>
+      <option value="leader">Руководитель управления</option>
+    </select>
+
+    <div class="topics">
+      <div class="topic">
+        <strong>01. Дисциплина</strong>
+        <span>Соблюдение внутреннего порядка и субординации.</span>
+      </div>
+      <div class="topic">
+        <strong>02. Документация</strong>
+        <span>Работа с отчётами и служебными материалами.</span>
+      </div>
+      <div class="topic">
+        <strong>03. Инструкторская работа</strong>
+        <span>Подготовка сотрудников и проведение аттестаций.</span>
+      </div>
+      <div class="topic">
+        <strong>04. Руководство</strong>
+        <span>Организация работы состава и контроль задач.</span>
       </div>
     </div>
-  </header>
 
-  <main class="container">
+    <div class="button-row">
+      <button class="button" id="startButton" type="button">
+        Начать аттестацию →
+      </button>
+    </div>
+  </section>
 
-    <div class="notice">
-      <strong>Информация:</strong>
-      это неофициальный учебный проект для ролевого игрового сервера
-      «Россия Онлайн — Кутузовский». Сайт не является официальным ресурсом
-      государственных органов и не связан с реальными ведомствами.
+  <section class="card hidden" id="quiz">
+    <div class="quiz-top">
+      <span id="rankLabel"></span>
+      <span id="questionCounter"></span>
     </div>
 
-    <section class="card" id="intro">
-      <h2>Аттестация сотрудников</h2>
+    <div class="progress">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
 
-      <p class="description">
-        Добро пожаловать на учебный портал Управления «9».
-        Выберите свою должность и приступите к проверке знаний.
-        Вопросы предназначены для внутриигровой подготовки,
-        соблюдения правил подразделения и оценки знания ролевого регламента.
-      </p>
+    <h2 class="question" id="questionText"></h2>
+    <div class="answers" id="answers"></div>
 
-      <label class="field-label" for="rank">
-        Выберите вашу должность
-      </label>
+    <div class="button-row">
+      <button class="button secondary" id="backButton" type="button">
+        ← Назад
+      </button>
+      <button class="button" id="nextButton" type="button">
+        Далее →
+      </button>
+    </div>
+  </section>
 
-      <select id="rank">
-        <option value="senior">Старший инструктор</option>
-        <option value="deputy">Заместитель начальника управления</option>
-        <option value="chief">Начальник управления</option>
-        <option value="curator">Куратор управления</option>
-        <option value="leader">Руководитель управления</option>
-      </select>
+  <section class="card hidden" id="result">
+    <h2>Результаты аттестации</h2>
+    <p class="description" id="resultRank"></p>
+    <div class="score" id="score">0%</div>
+    <div class="result-status" id="resultStatus"></div>
+    <p id="resultDetails" class="description"></p>
 
-      <div class="topics">
-        <div class="topic">
-          <strong>01. Дисциплина</strong>
-          <span>Соблюдение внутреннего порядка и субординации.</span>
-        </div>
+    <div class="button-row">
+      <button class="button" id="restartButton" type="button">
+        Вернуться к началу
+      </button>
+    </div>
 
-        <div class="topic">
-          <strong>02. Документация</strong>
-          <span>Работа с отчётами и служебными материалами.</span>
-        </div>
+    <div id="review"></div>
+  </section>
+</main>
 
-        <div class="topic">
-          <strong>03. Инструкторская работа</strong>
-          <span>Подготовка сотрудников и проведение аттестаций.</span>
-        </div>
+<footer>
+  <div class="container">
+    Учебный проект для ролевого сервера «Россия Онлайн — Кутузовский».<br>
+    Результаты аттестации не сохраняются на сервере и не являются официальными.
+  </div>
+</footer>
 
-        <div class="topic">
-          <strong>04. Руководство</strong>
-          <span>Организация работы состава и контроль задач.</span>
-        </div>
-      </div>
+<script>
+const rankNames = {
+  senior: "Старший инструктор",
+  deputy: "Заместитель начальника управления",
+  chief: "Начальник управления",
+  curator: "Куратор управления",
+  leader: "Руководитель управления"
+};
 
-      <div class="button-row">
-        <button class="button" id="startButton" type="button">
-          Начать аттестацию →
-        </button>
-      </div>
-    </section>
+const commonQuestions = [
+  {
+    question: "Что следует делать перед выполнением служебного поручения?",
+    answers: [
+      "Действовать на своё усмотрение, не уточняя задачу",
+      "Уточнить задачу, понять требования и проверить соответствие правилам сервера",
+      "Передать поручение любому игроку",
+      "Игнорировать установленные процедуры"
+    ],
+    correct: 1,
+    explanation: "Перед выполнением поручения необходимо понять задачу и соблюдать действующие игровые правила."
+  },
+  {
+    question: "Как правильно вести себя при общении с руководством?",
+    answers: [
+      "Соблюдать субординацию и общаться корректно",
+      "Перебивать и игнорировать указания",
+      "Отвечать оскорблениями",
+      "Не реагировать на обращения"
+    ],
+    correct: 0,
+    explanation: "Корректное общение и соблюдение субординации помогают поддерживать дисциплину."
+  },
+  {
+    question: "Что делать, если обнаружена ошибка в отчёте?",
+    answers: [
+      "Удалить отчёт и скрыть ситуацию",
+      "Обвинить другого сотрудника",
+      "Исправить ошибку и сообщить ответственному лицу, если это необходимо",
+      "Оставить ошибку без внимания"
+    ],
+    correct: 2,
+    explanation: "Ошибки следует исправлять честно и в соответствии с установленным порядком."
+  },
+  {
+    question: "Как следует действовать при возникновении спорной ситуации?",
+    answers: [
+      "Немедленно вступить в конфликт",
+      "Принимать решение на основе личной неприязни",
+      "Распространить неподтверждённые сведения",
+      "Разобраться в обстоятельствах и руководствоваться правилами сервера"
+    ],
+    correct: 3,
+    explanation: "Спорные ситуации необходимо разрешать спокойно и на основании доступных фактов и правил."
+  },
+  {
     question: "Что важнее всего при выполнении служебной задачи в рамках ролевой игры?",
-        answers: [
-          "Личное удобство сотрудника",
-          "Соблюдение правил сервера, регламента подразделения и игровых распоряжений",
-          "Скорость любой ценой",
-          "Мнение случайных игроков"
-        ],
-        correct: 1,
-        explanation:
-          "Все действия должны соответствовать правилам сервера и действующему игровому регламенту."
-      }
-    ];
+    answers: [
+      "Личное удобство сотрудника",
+      "Соблюдение правил сервера, регламента подразделения и игровых распоряжений",
+      "Скорость любой ценой",
+      "Мнение случайных игроков"
+    ],
+    correct: 1,
+    explanation: "Все действия должны соответствовать правилам сервера и действующему игровому регламенту."
+  },
+  {
+    question: "Как следует обращаться с внутренними служебными материалами в рамках игры?",
+    answers: [
+      "Публиковать их где угодно без проверки правил",
+      "Передавать их всем игрокам",
+      "Обращаться с ними в соответствии с правилами сервера и внутренним регламентом",
+      "Изменять материалы без разрешения"
+    ],
+    correct: 2,
+    explanation: "Порядок работы с игровыми материалами определяется правилами сервера и регламентом подразделения."
+  }
+];
 
-    const rankQuestions = {
-      senior: [
-        {
-          question: "Какова одна из основных задач старшего инструктора?",
-          answers: [
-            "Самостоятельно отменять все правила подразделения",
-            "Не проверять подготовку сотрудников",
-            "Помогать организовывать обучение и проверять знания стажёров",
-            "Передавать свои обязанности посторонним игрокам"
-          ],
-          correct: 2,
-          explanation:
-            "Старший инструктор участвует в организации обучения и проверке подготовки сотрудников."
-        },
-        {
-          question: "Что следует сделать, если стажёр допустил ошибку во время обучения?",
-          answers: [
-            "Немедленно прекратить его обучение без объяснений",
-            "Игнорировать ошибку",
-            "Скрыть ошибку от ответственных лиц",
-            "Разъяснить ошибку и порядок правильных действий"
-          ],
-          correct: 3,
-          explanation:
-            "Обучение предполагает разбор ошибок и объяснение правильного порядка действий."
-        }
+const rankQuestions = {
+  senior: [
+    {
+      question: "Какова одна из основных задач старшего инструктора?",
+      answers: [
+        "Самостоятельно отменять все правила подразделения",
+        "Не проверять подготовку сотрудников",
+        "Помогать организовывать обучение и проверять знания стажёров",
+        "Передавать свои обязанности посторонним игрокам"
       ],
-
-      deputy: [
-        {
-          question: "Какова одна из задач заместителя начальника управления?",
-          answers: [
-            "Помогать руководителю организовывать работу подразделения",
-            "Игнорировать работу инструкторов",
-            "Самостоятельно менять правила сервера",
-            "Не следить за исполнением поручений"
-          ],
-          correct: 0,
-          explanation:
-            "Заместитель помогает руководителю и участвует в координации работы подразделения."
-        },
-        {
-          question: "Что необходимо сделать, если ответственный сотрудник не выполняет поручение?",
-          answers: [
-            "Публично унизить сотрудника",
-            "Выяснить обстоятельства и действовать согласно установленному регламенту",
-            "Скрыть ситуацию от руководства",
-            "Немедленно изменить структуру подразделения"
-          ],
-          correct: 1,
-          explanation:
-            "Необходимо разобраться в ситуации и применить предусмотренный регламентом порядок."
-        }
+      correct: 2,
+      explanation: "Старший инструктор участвует в организации обучения и проверке подготовки сотрудников."
+    },
+    {
+      question: "Что следует сделать, если стажёр допустил ошибку во время обучения?",
+      answers: [
+        "Прекратить обучение без объяснений",
+        "Игнорировать ошибку",
+        "Скрыть ошибку от ответственных лиц",
+        "Разъяснить ошибку и порядок правильных действий"
       ],
-   tedRank = "senior";
-    let currentQuestion = 0;
-    let userAnswers = [];
+      correct: 3,
+      explanation: "Обучение предполагает разбор ошибок и объяснение правильного порядка действий."
+    }
+  ],
 
-    function startQuiz() {
-      selectedRank = rankSelect.value;
+  deputy: [
+    {
+      question: "Какова одна из задач заместителя начальника управления?",
+      answers: [
+        "Помогать руководителю организовывать работу подразделения",
+        "Игнорировать работу инструкторов",
+        "Самостоятельно менять правила сервера",
+        "Не следить за исполнением поручений"
+      ],
+      correct: 0,
+      explanation: "Заместитель помогает руководителю и участвует в координации работы подразделения."
+    },
+    {
+      question: "Что делать, если ответственный сотрудник не выполняет поручение?",
+      answers: [
+        "Публично унизить сотрудника",
+        "Выяснить обстоятельства и действовать согласно установленному регламенту",
+        "Скрыть ситуацию от руководства",
+        "Немедленно изменить структуру подразделения"
+      ],
+      correct: 1,
+      explanation: "Необходимо разобраться в ситуации и применить предусмотренный регламентом порядок."
+    }
+  ],
 
-      questions = [
-        ...commonQuestions,
-        ...rankQuestions[selectedRank]
-      ];
+  chief: [
+    {
+      question: "Какова ключевая задача начальника управления?",
+      answers: [
+        "Выполнять только личные поручения",
+        "Не контролировать работу состава",
+        "Организовывать работу подразделения и следить за выполнением задач",
+        "Передавать все решения посторонним игрокам"
+      ],
+      correct: 2,
+      explanation: "Руководитель организует работу подразделения и контролирует выполнение поставленных задач."
+    },
+    {
+      question: "Как следует поступить при выявлении систематических нарушений дисциплины?",
+      answers: [
+        "Игнорировать их",
+        "Назначить наказание без выяснения обстоятельств",
+        "Скрыть нарушения",
+        "Проверить обстоятельства и действовать по установленному регламенту"
+      ],
+      correct: 3,
+      explanation: "Решения должны приниматься на основании обстоятельств и действующих правил."
+    }
+  ],
 
-      currentQuestion = 0;
-      userAnswers = new Array(questions.length).fill(null);
+  curator: [
+    {
+      question: "Какова одна из основных задач куратора управления?",
+      answers: [
+        "Следить за организацией работы и помогать координировать деятельность подразделения",
+        "Игнорировать проблемы подразделения",
+        "Самостоятельно менять правила сервера",
+        "Не взаимодействовать с ответственными сотрудниками"
+      ],
+      correct: 0,
+      explanation: "Куратор помогает координировать работу и следить за организационными вопросами."
+    },
+    {
+      question: "Что следует сделать, если выявлены проблемы в организации работы?",
+      answers: [
+        "Не обращать на них внимания",
+        "Разобраться в ситуации и согласовать необходимые действия с ответственными лицами",
+        "Сразу прекратить деятельность всего состава",
+        "Распространить неподтверждённые обвинения"
+      ],
+      correct: 1,
+      explanation: "Организационные проблемы требуют проверки и согласованных действий."
+    }
+  ],
 
-      intro.classList.add("hidden");
-      result.classList.add("hidden");
-      quiz.classList.remove("hidden");
+  leader: [
+    {
+      question: "Какова главная задача руководителя управления?",
+      answers: [
+        "Контролировать только собственные поручения",
+        "Не участвовать в планировании",
+        "Определять направления работы и обеспечивать координацию подразделения",
+        "Игнорировать состояние дисциплины"
+      ],
+      correct: 2,
+      explanation: "Руководитель определяет направления работы и организует деятельность подразделения."
+    },
+    {
+      question: "На чём следует основывать важные управленческие решения?",
+      answers: [
+        "На личной неприязни",
+        "На неподтверждённых слухах",
+        "На случайных мнениях без проверки",
+        "На фактах, правилах сервера и установленном регламенте"
+      ],
+      correct: 3,
+      explanation: "Решения должны учитывать факты и действующие правила игрового подразделения."
+    }
+  ]
+};
 
-      rankLabel.textContent = rankNames[selectedRank];
+const intro = document.getElementById("intro");
+const quiz = document.getElementById("quiz");
+const result = document.getElementById("result");
+const rankSelect = document.getElementById("rank");
+const startButton = document.getElementById("startButton");
+const rankLabel = document.getElementById("rankLabel");
+const questionCounter = document.getElementById("questionCounter");
+const progressFill = document.getElementById("progressFill");
+const questionText = document.getElementById("questionText");
+const answersElement = document.getElementById("answers");
+const backButton = document.getElementById("backButton");
+const nextButton = document.getElementById("nextButton");
+const restartButton = document.getElementById("restartButton");
 
+let selectedRank = "senior";
+let questions = [];
+let currentQuestion = 0;
+let userAnswers = [];
+
+function startQuiz() {
+  selectedRank = rankSelect.value;
+  questions = [...commonQuestions, ...rankQuestions[selectedRank]];
+  currentQuestion = 0;
+  userAnswers = new Array(questions.length).fill(null);
+
+  intro.classList.add("hidden");
+  result.classList.add("hidden");
+  quiz.classList.remove("hidden");
+
+  rankLabel.textContent = rankNames[selectedRank];
+  renderQuestion();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderQuestion() {
+  const question = questions[currentQuestion];
+
+  questionCounter.textContent =
+    `Вопрос ${currentQuestion + 1} из ${questions.length}`;
+
+  progressFill.style.width =
+    `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+  questionText.textContent = question.question;
+  answersElement.replaceChildren();
+
+  question.answers.forEach((answer, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "answer";
+
+    if (userAnswers[currentQuestion] === index) {
+      button.classList.add("selected");
+      button.setAttribute("aria-pressed", "true");
+    } else {
+      button.setAttribute("aria-pressed", "false");
+    }
+
+    const letter = document.createElement("span");
+    letter.className = "answer-letter";
+    letter.textContent = String.fromCharCode(65 + index);
+
+    const text = document.createElement("span");
+    text.textContent = answer;
+
+    button.append(letter, text);
+
+    button.addEventListener("click", () => {
+      userAnswers[currentQuestion] = index;
       renderQuestion();
+    });
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+    answersElement.appendChild(button);
+  });
+
+  backButton.disabled = currentQuestion === 0;
+
+  nextButton.textContent =
+    currentQuestion === questions.length - 1
+      ? "Завершить аттестацию"
+      : "Далее →";
+}
+
+function goNext() {
+  if (userAnswers[currentQuestion] === null) {
+    alert("Выберите один из вариантов ответа.");
+    return;
+  }
+
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    renderQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function goBack() {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  const correctCount = questions.reduce((total, question, index) => {
+    return total + (userAnswers[index] === question.correct ? 1 : 0);
+  }, 0);
+
+  const percentage = Math.round((correctCount / questions.length) * 100);
+  const passed = percentage >= 70;
+
+  quiz.classList.add("hidden");
+  result.classList.remove("hidden");
+
+  document.getElementById("resultRank").textContent =
+    `Должность: ${rankNames[selectedRank]}`;
+
+  document.getElementById("score").textContent = `${percentage}%`;
+
+  const status = document.getElementById("resultStatus");
+  status.className = `result-status ${passed ? "passed" : "failed"}`;
+  status.textContent = passed
+    ? "Порог прохождения достигнут"
+    : "Порог прохождения не достигнут";
+
+  document.getElementById("resultDetails").textContent =
+    `Правильных ответов: ${correctCount} из ${questions.length}. Для прохождения необходимо набрать не менее 70%. Это учебный результат страницы, а не официальное подтверждение аттестации.`;
+
+  const review = document.getElementById("review");
+  review.replaceChildren();
+
+  const heading = document.createElement("h2");
+  heading.textContent = "Разбор ответов";
+  review.appendChild(heading);
+
+  questions.forEach((question, index) => {
+    const isCorrect = userAnswers[index] === question.correct;
+    const item = document.createElement("div");
+    item.className = "review-item";
+
+    const title = document.createElement("strong");
+    title.textContent = `${index + 1}. ${question.question}`;
+
+    const chosen = document.createElement("div");
+    chosen.className = isCorrect ? "correct-text" : "wrong-text";
+    chosen.textContent = `Ваш ответ: ${question.answers[userAnswers[index]]}`;
+
+    const correct = document.createElement("div");
+    correct.className = "correct-text";
+    correct.textContent = `Правильный ответ: ${question.answers[question.correct]}`;
+
+    const explanation = document.createElement("p");
+    explanation.className = "description";
+    explanation.textContent = question.explanation;
+
+    item.append(title, chosen);
+
+    if (!isCorrect) {
+      item.appendChild(correct);
     }
 
-    function renderQuestion() {
-      const question = questions[currentQuestion];
+    item.appendChild(explanation);
+    review.appendChild(item);
+  });
 
-      questionCounter.textContent =
-        `Вопрос ${currentQuestion + 1} из ${questions.length}`;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-      progressFill.style.width =
-        `${((currentQuestion + 1) / questions.length) * 100}%`;
+function restartQuiz() {
+  result.classList.add("hidden");
+  quiz.classList.add("hidden");
+  intro.classList.remove("hidden");
 
-      questionText.textContent = question.question;
-      answersElement.innerHTML = "";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-      question.answers.forEach((answer, index) => {
-        const button = document.createElement("button");
-
-        button.type = "button";
-        button.className = "answer";
-
-        if (userAnswers[currentQuestion] === index) {
-          button.classList.add("selected");
-        }
-
-        const letter = document.createElement("span");
-        letter.className = "answer-letter";
-        letter.textContent = String.fromCharCode(65 + index);
-
-        const text = document.createElement("span");
-        text.textContent = answer;
-
-        button.appendChild(letter);
-        button.appendChild(text);
-
-        button.addEventListener("click", () => {
-          userAnswers[currentQuestion] = index;
-          renderQuestion();
-        });
-
-        answersElement.appendChild(button);
-      });
-
-      backButton.disabled = currentQuestion === 0;
-
-      nextButton.textContent =
-        currentQuestion === questions.length - 1
-          ? "Завершить аттестацию"
-          : "Далее →";
-    } selec
-   function goNext() {
-      if (userAnswers[currentQuestion] === null) {
-        alert("Выберите один из вариантов ответа.");
-        return;
-      }
-
-      if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        renderQuestion();
-      } else {
-        showResults();
-      }
-    }
-
-    function goBack() {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-      }
-    }
-
-    function showResults() {
-      const correctCount = questions.reduce((total, question, index) => {
-        return total + (userAnswers[index] === question.correct ? 1 : 0);
-      }, 0);
-
-      const percentage = Math.round(
-        (correctCount / questions.length) * 100
-      );
-
-      const passed = percentage >= 70;
-
-      quiz.classList.add("hidden");
-      result.classList.remove("hidden");
-
-      document.getElementById("resultRank").textContent =
-        `Должность: ${rankNames[selectedRank]}`;
-
-      document.getElementById("score").textContent =
-        `${percentage}%`;
-
-      const status = document.getElementById("resultStatus");
-
-      status.className =
-        "result-status " + (passed ? "passed" : "failed");
-
-      status.textContent = passed
-        ? "Порог прохождения достигнут"
-        : "Порог прохождения не достигнут";
-
-      document.getElementById("resultDetails").innerHTML =
-        `Правильных ответов: <strong>${correctCount}</strong> из
-        <strong>${questions.length}</strong>
-
-        Для прохождения необходимо набрать не менее 70%.
-
-        <small>Это учебный результат страницы, а не официальное подтверждение аттестации.</small>`;
-
-      const review = document.getElementById("review");
-      review.innerHTML = "<h2>Разбор ответов</h2>";
-
-      questions.forEach((question, index) => {
-        const isCorrect = userAnswers[index] === question.correct;
-
-        const item = document.createElement("div");
-        item.className = "review-item";
-
-        const title = document.createElement("strong");
-        title.textContent = `${index + 1}. ${question.question}`;
-
-        const chosen = document.createElement("div");
-        chosen.className = isCorrect ? "correct-text" : "wrong-text";
-        chosen.textContent =
-          "Ваш ответ: " + question.answers[userAnswers[index]];
-
-        const correct = document.createElement("div");
-        correct.className = "correct-text";
-        correct.textContent =
-          "Правильный ответ: " + question.answers[question.correct];
-
-        const explanation = document.createElement("p");
-        explanation.className = "description";
-        explanation.textContent = question.explanation;
-
-        item.appendChild(title);
-        item.appendChild(chosen);
-
-        if (!isCorrect) {
-          item.appendChild(correct);
-        }
-
-        item.appendChild(explanation);
-        review.appendChild(item);
-      });
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
-
-    function restartQuiz() {
-      result.classList.add("hidden");
-      quiz.classList.add("hidden");
-      intro.classList.remove("hidden");
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-    }
-
-    startButton.addEventListener("click", startQuiz);
-    nextButton.addEventListener("click", goNext);
-    backButton.addEventListener("click", goBack);
-    restartButton.addEventListener("click", restartQuiz);
-  </script>
+startButton.addEventListener("click", startQuiz);
+nextButton.addEventListener("click", goNext);
+backButton.addEventListener("click", goBack);
+restartButton.addEventListener("click", restartQuiz);
+</script>
 </body>
 </html>
